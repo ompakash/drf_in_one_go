@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication
-from rest_framework.permissions import IsAuthenticated,IsAdminUser,AllowAny
+from rest_framework.permissions import IsAuthenticated,IsAdminUser,AllowAny,DjangoModelPermissions
 from rest_framework import mixins, generics
 
 # def car_list_view(request):
@@ -39,11 +39,12 @@ class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
     serializer_class = ReviewSerializer
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        return self.retrieve(request, *args, **kwargs)
 
 class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
