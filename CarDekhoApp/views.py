@@ -11,6 +11,8 @@ from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,AllowAny,DjangoModelPermissions
 from rest_framework import mixins, generics
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 
 # def car_list_view(request):
 #     cars = Carlist.objects.all()
@@ -51,7 +53,32 @@ class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericA
     
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+class Showroom_Viewset(viewsets.ModelViewSet):
+    queryset = Showroomlist.objects.all()
+    serializer_class = ShowroomSerializer
+
+
+# class Showroom_Viewset(viewsets.ViewSet):
+#     def list(self,request):
+#         queryset = Showroomlist.objects.all()
+#         serializer = ShowroomSerializer(queryset,many = True)
+#         return Response(serializer.data)
     
+#     def retrieve(self,request,pk=None):
+#         queryset = Showroomlist.objects.all()
+#         user = get_object_or_404(queryset, pk=pk)
+#         serializer = ShowroomSerializer(user)
+#         return Response(serializer.data)
+
+
+#     def create(self,request):
+#         serializer = ShowroomSerializer(data = request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
 class Showroom_View(APIView):
